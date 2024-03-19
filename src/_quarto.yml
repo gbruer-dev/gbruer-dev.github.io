@@ -1,13 +1,12 @@
 project:
   type: website
-  output-dir: docs
 
 website:
   page-navigation: true
-  title: "Hello :)"
+  title: "Grant"
 
   page-footer:
-    left: "&copy; Copyright 2022, Author"
+    left: "&copy; Copyright 2024, Grant Bruer"
     right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
 
   sidebar:
@@ -32,6 +31,7 @@ website:
             href: about.qmd
           - text: "This template"
             href: about_template.qmd
+  reader-mode: true
 
 
 format:
@@ -39,5 +39,3 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
-
-
