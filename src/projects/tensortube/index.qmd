@@ -1,0 +1,15 @@
+---
+title: "TensorTube"
+categories: [machine learning, python]
+image: "tensortube.jpg"
+date: 10/6/2016
+---
+
+This project was my introduction to TensorFlow.
+
+Code [here](https://github.com/alexklibisz/tensortube)
+
+Project description [here](https://devpost.com/software/tensortube)
+
+
+![Screenshot of TensorTube interface](tensortube.jpg)

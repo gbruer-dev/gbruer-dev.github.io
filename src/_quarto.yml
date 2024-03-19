@@ -4,6 +4,8 @@ project:
 website:
   page-navigation: true
   title: "Grant"
+  repo-url: https://github.com/gbruer15/gbruer15.github.io
+  repo-actions: [issue]
 
   page-footer:
     left: "&copy; Copyright 2024, Grant Bruer"
@@ -14,23 +16,31 @@ website:
     align: center
     style: "docked"
     collapse-level: 1
+    search: true
+    back-to-top-navigation: true
     contents:
+      - text: "About me"
+        href: index.qmd
+
+      - text: "Resumé"
+        href: resume/index.qmd
 
       - text: "Projects"
         href: projects/index.qmd
 
-      - text: "Talks"
-        href: talks/index.qmd
+      - text: "CV"
+        href: cv/index.qmd
 
-      - text: "Blog"
-        href: blog.qmd
-
-      - section: "About"
-        contents:
-          - text: "About me"
-            href: about.qmd
-          - text: "This template"
-            href: about_template.qmd
+    tools:
+      - icon: linkedin
+        text: LinkedIn
+        href: https://linkedin.com/in/grantbruer/
+      - icon: github
+        text: Github
+        href: https://github.com/gbruer15
+      - icon: gitlab
+        text: Gitlab
+        href: https://gitlab.com/gbruer
   reader-mode: true
 
 

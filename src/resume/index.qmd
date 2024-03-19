@@ -1,0 +1,16 @@
+
+---
+title: "Resumé"
+author: Grant Bruer
+date: last-modified
+number-sections: true
+number-depth: 3
+editor: visual
+format:
+  html:
+    toc: true
+    page-layout: full
+    number-sections: true
+    number-depth: 3
+---
+
