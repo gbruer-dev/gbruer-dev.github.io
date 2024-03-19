@@ -1,0 +1,13 @@
+---
+title: "CRIKit"
+categories: [machine learning, python]
+image: "diagram.png"
+date: 1/16/2019
+---
+
+This project earned me much Python and automatic differentiation experience.
+
+Code [here](https://gitlab.com/crikit/crikit)
+
+
+![CRIKit diagram](diagram.png)
