@@ -12,5 +12,58 @@ format:
     page-layout: full
     number-sections: true
     number-depth: 3
+  pdf:
+    documentclass: article
+    geometry:
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+listing:
+  - id: education
+    type: table
+    sort-ui: false
+    filter-ui: false
+    sort: "start-date desc"
+    contents: 
+      - ../data/education.yml
+    fields: [degree, subject, school, start-date, end-date]
+    field-display-names:
+      degree: Degree
+      subject: Subject
+      school: School
+      start-date: Started
+      end-date: Finished
+  - id: jobs
+    type: table
+    sort-ui: false
+    filter-ui: false
+    sort: "start-date desc"
+    contents: 
+      - ../data/jobs.yml
+    fields: [workplace, title, description, start-date, end-date]
+    field-display-names:
+      workplace: Workplace
+      title: Job title
+      description: Description
+      start-date: Started
+      end-date: Finished
+publications: data/publications.bib
 ---
 
+
+## Education
+
+::: {#education}
+:::
+
+
+## Work experience
+
+::: {#jobs}
+:::
+
+
+## Publications
+
+{{< publications ../data/publications.bib  >}}

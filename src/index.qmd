@@ -4,7 +4,7 @@ image: profile.png
 about:
   # id: hero-heading
   template: trestles
-  image-shape: rectangle
+  image-shape: round
   links:
     - icon: linkedin
       text: LinkedIn
@@ -20,22 +20,18 @@ repo-actions: true
 
 <!-- ::: {#hero-heading} -->
 
-Hello, I am *Grant Bruer*.
-
 I am a researcher at Georgia Institute of Technology.
 
-## Education
+I like to learn, so I've been a full-time student for 23 years.
 
-I like to learn, so I've been a full-time student for 22 years.
+## Research interests
 
+I do things.
 
-University of Tennessee | Knoxville, TN
-
-Georgia Institute of Technology | Atlanta, GA
-
-## Experience
+## Interests
 
 I have written lots of code and done lots of math. 
 
-
 <!-- ::: -->
+
+

@@ -1,0 +1,15 @@
+- degree: B.S.
+  subject: computer science, physics
+  school: University of Tennessee
+  start-date: 2014/08
+  end-date: 2018/05
+- degree: Ph.D.
+  subject: computational science
+  school: Georgia Institute of Technology
+  start-date: 2018/08
+  end-date: not yet
+- degree: "-"
+  subject: "-"
+  school: elementary, middle, high
+  start-date: 2000/08
+  end-date: 2014/05
