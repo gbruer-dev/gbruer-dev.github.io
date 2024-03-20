@@ -41,8 +41,17 @@ local function latex_listing(el)
       template_str = read_whole_file(template_path)
       template = pandoc.template.compile(template_str)
 
+      -- Get each field name.
+      fields = {}
+      for i,f in ipairs(listing.fields) do
+        field_str = pandoc.utils.stringify(f)
+        table.insert(fields, field_str)
+      end
+
       -- Get each entry in the listing.
       entries = {}
+      entries_i = {}
+      max_length = 22
       for k,c in pairs(listing.contents) do
         -- Assume the contents are YAML files and parse the data.
         filepath = pandoc.utils.stringify(c)
@@ -50,17 +59,23 @@ local function latex_listing(el)
         content_doc = '---\nthings:\n' .. content .. '\n---'
         pd = pandoc.read(content_doc, "markdown")
         for k,v in ipairs(pd.meta.things) do
+          entry_i = {}
           entry = {}
-          for i,f in ipairs(listing.fields) do
-            field_str = pandoc.utils.stringify(f)
-            entry[field_str] = pandoc.utils.stringify(v[field_str])
+          for i,f in ipairs(fields) do
+            s = pandoc.utils.stringify(v[f])
+            if s:len() > max_length then
+              s = s:sub(1, max_length)
+            end
+            entry[f] = s
+            entry_i[i] = s
           end
           table.insert(entries, entry)
+          table.insert(entries_i, entry_i)
         end
       end
 
       -- Apply the template and parse the rendered template.
-      context = {entries = entries}
+      context = {entries = entries, entries_i = entries_i, fields = fields}
       rendered_template = pandoc.template.apply(template, context)
       pd = pandoc.read(tostring(rendered_template), "latex")
       return pd.blocks
