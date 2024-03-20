@@ -48,6 +48,13 @@ listing:
       description: Description
       start-date: Started
       end-date: Finished
+latex-listing:
+  - id: jobs
+    latex-template: ../templates/job-listing.tex
+  - id: education
+    latex-template: ../templates/education-listing.tex
+filters:
+  - latex_listing
 ---
 
 
