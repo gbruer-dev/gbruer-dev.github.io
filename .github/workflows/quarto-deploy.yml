@@ -35,6 +35,8 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Setup quarto
         uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
       - name: Build HTML
         run: quarto render src --output-dir ../output
       - name: Upload artifact
