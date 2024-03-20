@@ -25,7 +25,7 @@ listing:
     sort-ui: false
     filter-ui: false
     sort: "start-date desc"
-    contents: 
+    contents:
       - ../data/education.yml
     fields: [degree, subject, school, start-date, end-date]
     field-display-names:
@@ -39,7 +39,7 @@ listing:
     sort-ui: false
     filter-ui: false
     sort: "start-date desc"
-    contents: 
+    contents:
       - ../data/jobs.yml
     fields: [workplace, title, description, start-date, end-date]
     field-display-names:
@@ -48,9 +48,15 @@ listing:
       description: Description
       start-date: Started
       end-date: Finished
-publications: data/publications.bib
----
 
+latex-listing:
+  - id: jobs
+    latex-template: ../templates/job-listing.tex
+  - id: education
+    latex-template: ../templates/education-listing.tex
+filters:
+  - latex_listing
+---
 
 ## Education
 
