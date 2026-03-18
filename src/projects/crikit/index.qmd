@@ -7,7 +7,10 @@ date: 1/16/2019
 
 This project earned me much Python and automatic differentiation experience.
 
+CRIKit (2019-2023)
+
+- Developed a software framework to enable training and testing complex CRs (constitutive relations) in material science.
+- Integrated automatic differentiation frameworks with Pyadjoint, thus allowing seamless use of diverse CR implementations.
+- Investigated CR parametrizations that respect physical symmetries and invariants, thus increasing generalizability.
+
 Code [here](https://gitlab.com/crikit/crikit)
-
-
-![CRIKit diagram](diagram.png)

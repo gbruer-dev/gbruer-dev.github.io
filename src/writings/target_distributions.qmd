@@ -1,0 +1,239 @@
+
+---
+title: "Target distributions for normalizing flow"
+author: Grant Bruer
+date: last-modified
+number-sections: true
+number-depth: 3
+format:
+  html:
+    toc: true
+    page-layout: full
+    number-sections: true
+    number-depth: 3
+  pdf:
+    documentclass: article
+    geometry:
+      - top=1in
+      - bottom=1in
+      - left=1in
+      - right=1in
+---
+
+
+
+# Normalizing flow
+
+Let's say we want to map samples $x \sim p(x)$ to samples of a target distribution $z \sim \pi(z)$.
+Normalizing flow does this with a parametrized invertible function $S(x; \theta)$, such that $z = S(x)$ and $x = S^{-1}(z)$.
+
+For any invertible transformation $S$, the densities $p(x)$ and $\pi(z)$ are related as
+
+$$
+p(x) = \pi(z = S(x)) \left| \mathrm{det}\frac{dS}{dx}(x) \right|
+$$
+
+Typically, the distribution of $x$ is unknown, and the parameters of $S$ are optimized such that $z$ follows a known distribution, such as the unit Gaussian distribution.
+The typical metric for this optimization is the KL divergence.
+
+<!--
+**Backward KL form**
+
+Let $\pi$ denote the chosen target distribution for $z$, and let $\pi'$ denote the distribution of $z$ induced by applying $S$ to $x$.
+We want these distributions to be the same, so we want to minimize the KL-divergence from one to the other.
+
+$$
+\min_{\theta} KL(\pi || \pi') = \min_{\theta} \mathbb{E}_z \log \pi(z) - \log \pi'(z)
+$$
+
+The minimization is over the parameters $\theta$ of the function $S$, which affects $\pi'$ but not $\pi$.
+
+$$
+\min_{\theta} KL(\pi || \pi') = \min_{\theta} - \mathbb{E}_z \log \pi'(z)
+$$
+-->
+
+
+
+**Forward KL form**
+
+Let $p$ denote the true distribution for $x$, and let $p'$ denote the distribution of $x$ induced by applying $S$ to $z$ for a chosen target distribution $\pi$.
+We want these distributions to be the same, so we want to minimize the KL-divergence from one to the other.
+
+$$
+\min_{\theta} KL(p || p') = \min_{\theta} \mathbb{E}_{x \sim p(x)} \log p(x) - \log p'(x)
+$$
+
+The minimization is over the parameters $\theta$ of the function $S$, which affects $p'$ but not $p$.
+$$
+\min_{\theta} KL(p || p') = \min_{\theta} - \mathbb{E}_{x \sim p(x)} \log p'(x)
+$$
+
+Using the formula for invertible transformations of random variables,
+$$
+\min_{\theta} KL(p || p') = \min_{\theta} \mathbb{E}_{x \sim p(x)} - \log \pi(z = S(x)) - \log \left| \mathrm{det}\frac{dS}{dx}(x) \right|
+$$
+
+
+This expectation cannot be computed analytically, as we don't have access to the true distribution of $x$.
+Instead, we can compute expectation over samples of $p(x)$; this is commonly referred to as training data.
+
+$$
+\min_{\theta} KL(p || p') \approx \min_{\theta} \frac{1}{N} \sum_{x \sim p(x)} - \log \pi(z = S(x)) - \log \left| \mathrm{det}\frac{dS}{dx}(x) \right|
+$$
+
+To evaluate this, we must be able to compute the log density of $z$---or at least, the part of the log density that depends on $z$.
+Since this term doesn't have to exactly equal the log density of $z$, let's give it a new name.
+Let $f(z)$ be the part of $-\log \pi(z)$ that depends on $z$, and let's call $g(x)$ the log determinant Jacobian term.
+
+The resulting optimization problem is 
+$$
+\min_{\theta} \frac{1}{N} \sum_{x \sim p(x)} f(z = S(x)) - g(x).
+$$
+
+The first term encourages $S$ to map $x$ samples to the highest probability point of $\pi(z)$.
+The second term penalizes $S$ for having a small Jacobian.
+
+Consider a one dimensional $x$ with a linear $S$, $S(x) = ax + b$ with a unit normal $z$:
+$$
+f(z = S(x)) = \frac{1}{2}(ax + b)^2,\\
+g(x) = \log a.
+$$
+The $f$ term encourages $a$ to be 0, while the $g$ term prevents it.
+This tradeoff makes the optimal $S$ be the one that maps $x$ samples exactly to the target distribution of $z$.
+
+## Optimal linearity
+
+Let's look at minimizing the KL divergence for a linear transformation of $S$ when $x$ is one dimensional.
+The new map $S'$ and the new loss term $f'(x)$ and $g'(x)$ are
+$$
+S'(x) = a (S(x) - b),\\
+\frac{dS'}{dx}(x) = a \frac{dS}{dx}(x),\\
+f'(z) = f(a (z - b)),\\
+g'(x) = \log \left| \mathrm{det}\frac{dS'}{dx}(x) \right| = g(x) + \log |a|.
+$$
+
+The gradient of the loss for this new mapping at a single sample $x$ is
+$$
+\frac{df'}{da} = \frac{df}{dz} \frac{dz}{da} = \frac{df}{dz} S(x),\\
+\frac{df'}{db} = \frac{df}{dz} \frac{dz}{db} = -\frac{df}{dz} a,\\
+\frac{dg'}{da} = \frac{1}{a},\\
+\frac{dg'}{db} = 0.
+$$
+
+We can solve for the zero gradient condition
+
+$$
+\frac{1}{N} \sum_{x \sim p(x)} \frac{df'}{da} + \frac{dg'}{da} = 0,\\
+\frac{1}{N} \sum_{x \sim p(x)} \frac{df}{dz} S(x) + \frac{1}{a} = 0\\
+$$
+
+
+# Target distributions
+
+
+The most common target distribution is the unit normal distribution, which yields this choice for $f$:
+$$
+f(z) = \frac{1}{2} \|z\|^2,
+\frac{df}{dz} = z.
+$$
+
+But this doesn't handle outliers very well.
+The gradient magnitude grows linearly with $z$, so an outlier in the training data is likely to cause a bad fit.
+
+We can handle outliers better by using a target distribution with larger tails.
+Consider a distribution density $U$ that is constant over its entire domain.
+We can call this a "corruptive" distribution.
+By this I mean that we our training samples are mostly mapped to the desired distribution $\pi_0$ (e.g., the unit normal), but some small proportional $\alpha$ are mapped to the distribution $U$.
+
+The resulting density for $z$ is
+$$
+\pi(z) = (1-\alpha)\pi_0(z) + \alpha U(z). 
+$$
+
+The $f$ term and its gradient are
+$$
+f(z) = -\log \pi(z) = -\log \large( (1-\alpha)\pi_0(z) + \alpha U(z) \large),\\
+\frac{df}{dz} = - \frac{(1-\alpha)\frac{d\pi_0}{dz} + \alpha}{(1-\alpha)\pi_0(z) + \alpha U(z)}.
+$$
+Note that $\pi$ does not have to be normalized as any normalization constant would be indepedent of $z$, and thus, ignored during optimization.
+
+For a unit normal $\pi_0$ and uniform $U$, the $f$ term is
+$$
+f(z) = -\log \large((1-\alpha)e^{-z^2/2} + \alpha \large),\\
+= \log \large(e^{-z^2/2} + \alpha/(1-\alpha) \large) + c,\\
+= - \log \large(e^{-z^2/2} + \alpha/(1-\alpha) \large) + c,\\
+$$
+and we can ignore the constant that is independent of $z$.
+
+$$
+\frac{df}{dz} = \frac{ze^{-z^2/2}}{e^{-z^2/2} + \alpha/(1-\alpha)}
+$$
+The magnitude of the gradient $df/dz$ goes to 0 for large $z$, which results in outliers being essentially ignored.
+
+This can be written in terms of the standard sigmoid function $\textrm{sigmoid}(x) = e^{x}/(1+e^{x})$ using this form:
+$$
+\frac{df}{dz} = z \frac{e^{-z^2/2} (1-\alpha) / \alpha}{e^{-z^2/2}(1-\alpha)/\alpha + 1}.
+$$
+The $\alpha$ factors can be brought into the exponential as
+$$
+e^{-z^2/2} (1-\alpha) / \alpha =
+e^{-z^2/2 + \log (1-\alpha) - \log \alpha}
+$$
+So the gradient is
+$$
+\frac{df}{dz} = z \,\textrm{sigmoid}(-z^2/2 + \log (1-\alpha) - \log \alpha),
+$$
+which approximates $z$ for small $z$ and goes to 0 for $z^2 \gg \log (1-\alpha) - \log \alpha$.
+
+
+# Affine coupling
+
+The standard affine coupling layer takes inputs $x$ and $y$ and outputs $A(x + b)$ and $y$, where $A$ and $b$ are computed from $y$.
+Here, $b$ removes all correlation between $x+b$ and $y$, and $A$ normalizes $x+b$.
+Typically, $A$ is diagonal, which limits expressibility.
+If $x+b$ has internal correlations, then a diagonal transformation cannot remove those.
+Instead, additional layers must be applied with different splittings to remove these correlations.
+
+To be more expressive, one could allow $A$ to be triangular with positive diagonal.
+This ensures invertibility and while keeping the ease of computing the Jacobian determinant.
+It also allows complete removal of 1st order correlations.
+But it's not scalable to make $A$ be a dense matrix.
+
+To be scalable and more expressive, $A$ can be replaced by an invertible convolution.
+The convolution window size limits the correlations that can be removed.
+If there are long-range correlations, perhaps applying this convolution in Fourier space would allow much more expressivity.
+
+
+# Normalizing ODE
+
+Consider a normalization that can only use linear transformations.
+This would transform $x$ (assumed 0 mean) using the standard Kalman filter equations,
+$$
+y_0 = h(x_0),\\
+x' = x_0 + B_{xy} B_y^{-1}(y - \mu_y),
+$$
+where $h$ is the observation operator, $y$ is an observation, $B_{xy}$ is the cross-correlation between $x_0$ and $y_0$, $B_y$ is the covariance of $y_0$, and $\mu_y$ is the mean of $y_0$.
+
+We can make this into a nonlinear transformation by taking infinite linear steps.
+We define $x(0) = x_0$ and $y(t) = h(x(t))$ for an artificial time $t \in [0, 1]$.
+The time derivative of $x$ is
+$$
+\frac{dx}{dt} = B_{xy} B_y^{-1}(y - \mu_y).
+$$
+This is a very messy system of ODEs, as every variable depends on the state $x$.
+
+If we solve for $x(1)$ using a single forward Euler step from $x_0$, it is equivalent to using the standard Kalman filter equations.
+If we use a smaller step size, it is similar to the iterated Kalman filter.
+Unfortunately, $y$, $B_{xy}$, and $B_y$, require recomputing the observations at each simulated step.
+For a complex observation operator, this may be prohibitively expensive.
+The time derivative of $y$ is
+$$
+\frac{dy}{dt} = \frac{dh}{dx} \frac{dx}{dt},
+$$
+which approximates observations using a linearization of the observation operator $h$.
+This is likely not any easier to compute than $h(x)$.
+One could also work out similar but more complex equations describing the time evolution of $B_{xy}$ and $B_x$ to avoid recomputing them, but it would likely again not be any easier to compute than simply recomputing the covariances.
+
+
+

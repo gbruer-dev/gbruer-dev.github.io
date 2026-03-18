@@ -6,10 +6,11 @@ listing:
   - id: projects
     max-description-length: 500
     image-height: 150px
-    fields: [image, title, description]
+    fields: [image, title, date, description]
     contents: 
       - .
     type: table
+    sort: "date desc"
     sort-ui: false
     filter-ui: false
     table-striped: true

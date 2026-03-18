@@ -8,13 +8,13 @@ about:
   links:
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com/in/grantbruer/
+      href: https://linkedin.com/in/grantbruer
     - icon: github
       text: Github
-      href: https://github.com/gbruer15
+      href: https://github.com/grantbruer
     - icon: gitlab
       text: Gitlab
-      href: https://gitlab.com/gbruer
+      href: https://gitlab.com/grantbruer
 repo-actions: true
 ---
 
@@ -30,7 +30,7 @@ I do things.
 
 ## Interests
 
-I have written lots of code and done lots of math. 
+I have written lots of code and done lots of math.
 
 <!-- ::: -->
 

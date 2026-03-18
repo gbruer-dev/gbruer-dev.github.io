@@ -4,11 +4,11 @@ project:
 website:
   page-navigation: true
   title: "Grant"
-  repo-url: https://github.com/gbruer15/gbruer15.github.io
+  repo-url: https://github.com/grantbruer/grantbruer.github.io
   repo-actions: [issue]
 
   page-footer:
-    left: "&copy; Copyright 2024, Grant Bruer"
+    left: "&copy; Copyright 2026, Grant Bruer"
     right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
 
   sidebar:
@@ -34,13 +34,13 @@ website:
     tools:
       - icon: linkedin
         text: LinkedIn
-        href: https://linkedin.com/in/grantbruer/
+        href: https://linkedin.com/in/grantbruer
       - icon: github
         text: Github
-        href: https://github.com/gbruer15
+        href: https://github.com/grantbruer
       - icon: gitlab
         text: Gitlab
-        href: https://gitlab.com/gbruer
+        href: https://gitlab.com/grantbruer
   reader-mode: true
 
 format:

@@ -1,0 +1,15 @@
+---
+title: "Ensemble Kalman filtering and conditional normalizing flows for seismic monitoring via data assimilation"
+categories: [data assimilation, machine learning, Julia]
+# image: "diagram.png"
+date: 12/4/2025
+---
+
+
+Ensemble Kalman filtering and conditional normalizing flows for seismic monitoring via data assimilation (2023 - 2025)
+
+- Applied the ensemble Kalman filter (EnKF) to estimate subsurface CO~2~ concentrations using surface seismic observations in a realistic setting.
+- Compared EnKF to a class of scalable conditional normalizing flow filters based on neural networks with coupling layers.
+- Redesigned the parametrization of the coupling layer to be more robust to weight initialization and data noise.
+
+Code [here](https://github.com/DataAssimilation)
