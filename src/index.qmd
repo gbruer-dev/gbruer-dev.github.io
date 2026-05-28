@@ -18,20 +18,12 @@ about:
 repo-actions: true
 ---
 
-<!-- ::: {#hero-heading} -->
+Greetings! I am Grant Bruer.
+I like to learn, so I've spent a long time in school.
+I enjoy software development, and I am particularly interested in mathematics and physics.
+That has led me to a computational science degree from Georgia Tech.
 
-I am a researcher at Georgia Institute of Technology.
+In the [Projects](projects) tab, I have a brief description of past projects I've worked on.
 
-I like to learn, so I've been a full-time student for 23 years.
-
-## Research interests
-
-I do things.
-
-## Interests
-
-I have written lots of code and done lots of math.
-
-<!-- ::: -->
-
+In the [Publications](publications) tab, I have a list of publications on which I am a co-author.
 

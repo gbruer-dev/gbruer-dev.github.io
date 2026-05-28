@@ -1,0 +1,27 @@
+---
+title: "TENNLab"
+categories: [machine learning, c++, lua, bash, slurm, pbs, ci, jenkins]
+image: "example.jpg"
+date: 7/31/2018
+---
+
+Building a software framework for neurmorphic networks in C++.
+
+The software framework is described here [here](https://neuromorphic.eecs.utk.edu/raw/files/publications/2018-Plank-Framework.pdf), and an example showing the pole balancing application is below.
+
+
+![Pole balancer example. The four variables of interest are each mapped to three bins. Spikes are fired into the network at the appropriate four bins chosen from the twelve input neurons. Spikes travel across synapses and through hidden neurons. The difference in spikes of the two output neurons determines if the cart is pushed left or right to keep balance.](example.jpg){#fig-pb}
+
+
+::: {#fig-robonav layout-ncol=3}
+
+![Virtual environment showing direction of lidar measurements.](robonav/Viz.png)
+
+![](robonav/Robot.png)
+
+![The network has nine input neurons and four output neurons.](robonav/NetworkIO.png)
+
+
+Robonav example. The goal is to navigate the environment using very limited LIDAR measurements without colliding with obstacles.
+
+:::

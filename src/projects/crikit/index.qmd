@@ -1,8 +1,9 @@
 ---
 title: "CRIKit"
-categories: [machine learning, python]
-image: "diagram.png"
-date: 1/16/2019
+categories: [machine learning, python, partial differential equations, automatic differentiation, tensorflow, jax, pytorch, gitlab ci]
+image: "domain_damage.png"
+date: 5/16/2023
+lightbox: true
 ---
 
 This project earned me much Python and automatic differentiation experience.
@@ -14,3 +15,37 @@ CRIKit (2019-2023)
 - Investigated CR parametrizations that respect physical symmetries and invariants, thus increasing generalizability.
 
 Code [here](https://gitlab.com/crikit/crikit)
+
+
+::: {#fig-domain layout-ncol=1}
+
+![Forward problem](forward-problem.png)
+
+![Adjoint problem](adjoint-problem.png)
+
+When computing the loss, information flows from parameters $p$ to loss $J$, with intermediate computations of the PDE output $u$ and the observable quantity $d$.
+For computing the parameter gradient, information flows backward from $J$ to $p$.
+Even though the matrix $\frac{du}{dp}$ grows quadratically with the problem size, applying its adjoint to $\frac{dJ}{du}$ is cheap.
+This allows scalable gradient-based optimization of the parameters $p$ when $p$ is high-dimensional compared to the loss $J$.
+
+:::
+
+
+::: {#fig-domain layout-ncol=2}
+
+![Boundary conditions for the damage $\phi$](domain_damage.png)
+
+![Boundary conditions for the velocity $u$](domain_velocity.png)
+
+Boundary conditions for a 2D vertical slice of a large mound of ice.
+
+:::
+
+
+![Solution from solving PDE with "ground-truth" damage model.](ground_truth_solution.png){#fig-ground-truth}
+
+
+![Error in learned damage model for 3 levels of noise (0%, 1%, and 5%) and 3 types of measurements.](best_losses_delta_phi.png){#fig-learned}
+
+
+<!-- TODO crikit math -->

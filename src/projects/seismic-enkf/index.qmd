@@ -1,7 +1,7 @@
 ---
 title: "Ensemble Kalman filtering and conditional normalizing flows for seismic monitoring via data assimilation"
-categories: [data assimilation, machine learning, Julia]
-# image: "diagram.png"
+categories: [data assimilation, machine learning, julia]
+image: "diagram.png"
 date: 12/4/2025
 ---
 
